@@ -79,12 +79,7 @@ export default {
               icon: 'el-icon-tickets',
               index: 'studentManage',
               title: '学生管理'
-            },
-            {
-              icon: 'el-icon-tickets',
-              index: 'userManage',
-              title: '用户管理'
-            },
+            }
           ]
         },
         {

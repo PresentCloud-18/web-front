@@ -2,7 +2,7 @@
   <body id="paper">
     <div>
         <!--  这里绑定定义的数据-->
-        <el-form v-if="this.login" :rules="rules" class="login-container" label-position="left"
+        <el-form v-if="this.mode==='login'" :rules="rules" class="login-container" label-position="left"
                 label-width="0px" v-loading="loading">
             <h1 class="login_title">到云后台系统登录</h1>
             <el-form-item prop="account">
@@ -11,15 +11,26 @@
             <el-form-item prop="checkPass">
             <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码" show-password></el-input>
             </el-form-item>
+            <el-form-item  prop="smsCode">
+              <el-row :gutter="10">
+                <el-col :span="18">
+                  <el-input type="string" v-model="loginForm.smsCode" autocomplete="off" placeholder="验证码"></el-input>
+                </el-col>
+                <el-col :span="6">
+                  <el-button type="info" @click="getMsgCode()">获取</el-button>
+                </el-col>
+              </el-row>
+            </el-form-item>
             <el-checkbox class="login_remember" v-model="checked" label-position="left">记住密码</el-checkbox>
             <el-form-item style="width: 100%">
             <el-button type="info" @click.native.prevent="submitClick" style="width: 100%">登录</el-button>
             </el-form-item>
-          <div>
-            <el-link @click="onChangeMode">注册账号</el-link>
+          <div style="padding-bottom: 20px">
+            <el-link style="float: left" @click="onChangeMode('register')">注册账号</el-link>
+            <el-link style="float: right;" @click="onChangeMode('forgot')">忘记密码</el-link>
           </div>
         </el-form>
-      <el-form v-else :rules="rules" class="login-container" label-position="left"
+      <el-form v-else-if="this.mode==='register'" :rules="rules" class="login-container" label-position="left"
                label-width="0px" v-loading="loading">
         <h1 class="login_title">注册</h1>
         <el-form-item prop="account">
@@ -43,10 +54,39 @@
           <el-button type="info" @click.native.prevent="onRegister" style="width: 100%">注册</el-button>
         </el-form-item>
         <div>
-          <el-link @click="onChangeMode">前往登录</el-link>
+          <el-link @click="onChangeMode('login')">前往登录</el-link>
         </div>
       </el-form>
+      <el-form v-else :rules="rules" class="login-container" label-position="left"
+               label-width="0px" v-loading="loading">
+        <h1 class="login_title">修改密码</h1>
+        <el-form-item prop="account">
+          <el-input type="text" v-model="forgotForm.phone" auto-complete="off" placeholder="手机号"></el-input>
+        </el-form-item>
+        <el-form-item prop="checkPass">
+          <el-input type="password" v-model="forgotForm.password" auto-complete="off" placeholder="密码" show-password></el-input>
+        </el-form-item>
+        <el-form-item prop="checkPass">
+          <el-input type="password" v-model="forgotForm.password1" auto-complete="off" placeholder="确认密码" show-password></el-input>
+        </el-form-item>
 
+        <el-form-item  prop="smsCode">
+          <el-row :gutter="10">
+            <el-col :span="18">
+              <el-input type="string" v-model="registerForm.smsCode" autocomplete="off" placeholder="验证码"></el-input>
+            </el-col>
+            <el-col :span="6">
+              <el-button type="info" @click="getMsgCode()">获取</el-button>
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <el-form-item style="width: 100%">
+          <el-button type="info" @click.native.prevent="onModifyPassword" style="width: 100%">提交更改</el-button>
+        </el-form-item>
+        <div>
+          <el-link @click="onChangeMode('login')">前往登录</el-link>
+        </div>
+      </el-form>
     </div>
   </body>
 </template>
@@ -58,32 +98,42 @@
       return {
         // 这里定义数据
         rules: {
-          account: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+          account: [{required: true, message: '请输入手机号', trigger: 'blur'}],
           checkPass: [{required: true, message: '请输入密码', trigger: 'blur'}],
           smsCode: [{ required: true, message: '验证码不能为空'},
                     {pattern: '/[a-zA-Z0-9}$/',message: '验证码只能为数字或字母',trigger: 'blur' }]
         },
         checked: true,
         msgValidate: false,
-        login: true,
+        mode: 'login',
         loginForm: {
           username: 'admin',
-          password: '123456'
+          password: '123456',
+          smsCOde: ''
         },
         registerForm: {
           phone: '',
           password: '',
           smsCode: ''
         },
+        forgotForm: {
+          phone: '',
+          password: '',
+          password1: '',
+          smsCOde: ''
+        },
         loading: false
       }
     },
     methods: {
-      onChangeMode: function () {
-        this.login = !this.login
+      onChangeMode: function (mode) {
+        this.mode = mode
       },
       onRegister: function () {
         return
+      },
+      onModifyPassword: function () {
+
       },
       // 这里使用定义的数据
       submitClick: function () { // 提交表单

@@ -20,30 +20,23 @@ const routes = [
     component: Home,
     hidden: true,
     meta: {
-      requireAuth: false
+      requireAuth: true
     }
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home,
-    hidden: true,
-    meta: {
-      requireAuth: false
-    }
+    component: Login,
+    children: [
+
+    ]
   },
   {
     path: '/home',
     component: Home,
-    name: '用户管理',
-    iconCls: 'el-icon-star-on',
     meta: {
-      requireAuth: false
+      keepAlive: true,
+      requireAuth: true
     },
     children: [
       {
@@ -52,7 +45,8 @@ const routes = [
         component: ManageBoard,
         hidden: true,
         meta: {
-          requireAuth: false
+          keepAlive: true,
+          requireAuth: true
         }
       },
       {
@@ -61,41 +55,45 @@ const routes = [
         component: RoleManage,
         hidden: true,
         meta: {
+          keepAlive: true,
           requireAuth: true
         }
       },
       {
-        path: '/userManage',
+        path: '/user',
         name: '用户管理',
         component: UserManage,
         meta: {
           keepAlive: true,
-          requireAuth: false
-        }
-      },
-      {
-        path: '/studentManage',
-        name: '学生管理',
-        component: StudentManage,
-        meta: {
-          keepAlive: true,
-          requireAuth: false
-        }
-      },
-      {
-        path: '/teacherManage',
-        name: '教师管理',
-        component: TeacherManage,
-        meta: {
-          keepAlive: true,
           requireAuth: true
-        }
+        },
+        children: [
+          {
+            path: 'studentManage',
+            name: '学生管理',
+            component: StudentManage,
+            meta: {
+              keepAlive: true,
+              requireAuth: true
+            }
+          },
+          {
+            path: 'teacherManage',
+            name: '教师管理',
+            component: TeacherManage,
+            meta: {
+              keepAlive: true,
+              requireAuth: true
+            }
+          },
+        ]
       },
       {
         path: '/lessonManage',
         name: '课程管理',
         component: LessonManage,
         meta: {
+          keepAlive: true,
           requireAuth: true
         }
       },
@@ -104,6 +102,7 @@ const routes = [
         name: '数据字典',
         component: DataDictionary,
         meta: {
+          keepAlive: true,
           requireAuth: true
         }
       }
@@ -117,6 +116,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     meta: {
+      keepAlive: true,
       requireAuth: true
     }
   }
