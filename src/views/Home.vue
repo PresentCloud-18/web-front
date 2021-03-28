@@ -3,7 +3,7 @@
     <div class="wrapper">
       <y-header></y-header>
       <y-sidebar></y-sidebar>
-      <div class="content-box">
+      <div :class="{'content-box':!this.$store.state.isCollapse, 'content-collapse' : this.$store.state.isCollapse}">
         <div class="content">
           <BreadCrumb></BreadCrumb>
           <transition>
@@ -14,26 +14,28 @@
         </div>
       </div>
     </div>
+    <UserInfo></UserInfo>
   </el-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 import ySidebar from "@/components/Sidebar";
 import yHeader from "@/components/Header";
-import BreadCrumb from "@/components/BreadCrumb"
+import BreadCrumb from "@/components/BreadCrumb";
+import UserInfo from "@/components/UserInfo";
+
 export default {
   name: 'Home',
   components: {
     ySidebar,
     yHeader,
-    BreadCrumb
+    BreadCrumb,
+    UserInfo
   },
   data() {
     return {
       currentUserName: 'Admin',
-      collapse: false,
       input: ''
     }
   },
@@ -44,22 +46,21 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     }
+  },
+  created() {
+    this.collapse = this.$store.state.isCollapse
   }
 }
 </script>
 
 <style>
   @import url("//unpkg.com/element-ui@2.15.1/lib/theme-chalk/index.css");
-  .content-box {
-    margin-top: 10px;
-    margin-left: 10px;
-  }
   .wrapper {
     width: 100%;
     height: 100%;
     overflow: hidden;
   }
-  .content-box-menu {
+  .content-collapse {
     position: absolute;
     left: 80px;
     right: 10px;

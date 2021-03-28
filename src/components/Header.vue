@@ -1,14 +1,20 @@
 <template>
   <div class=" header">
     <div class="logo">
-      <img style="height: 50px;width:250px" src="../assets/logo.png" />
+      <img style="height: 50px;width:250px" src="../assets/finallogo.png" />
     </div>
     <div class="header-right">
+      <div class="user-notice">
+        <i class="el-icon-bell"></i>
+      </div>
+      <div class="user-name">
+        {{currentUserName}}
+      </div>
       <div class="user-avatar">
         <el-dropdown @command="handleCommand">
           <el-avatar :size="50" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
                 <el-dropdown-menu class="el-dropdown-link" slot="dropdown">
-                  <el-dropdown-item command="MyHome">{{ currentUserName }}</el-dropdown-item>
+                  <el-dropdown-item command="MyHome">个人主页</el-dropdown-item>
                   <el-dropdown-item command="logout" divided>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
         </el-dropdown>
@@ -22,7 +28,9 @@ export default {
   name: "Header",
   data () {
     return {
-      currentUserName: 'Admin'
+      collapse: this.$store.state.isCollapse,
+      currentUserName: 'Admin',
+      notices: []
     }
   },
   methods: {
@@ -42,7 +50,8 @@ export default {
       }
       if (command === 'MyHome') {
         //getRequest("/userhome");
-        _this.$router.push({path: '/userhome'});
+        _this.$store.commit('changeUserDrawer')
+        console.log('drawer', _this.$store.state.userDrawer)
       }
     }
   }
@@ -51,6 +60,7 @@ export default {
 
 <style scoped>
 .header-right {
+  display: flex;
   position: relative;
   float: right;
   padding-right: 10px;
@@ -67,6 +77,15 @@ export default {
   height: 70px;
   color: #fff;
   background: #272F42;
+}
+.user-notice {
+  margin-right: 20px;
+  line-height: 70px;
+  font-size: 20px;
+}
+.user-name {
+  margin-right: 20px;
+  line-height: 70px;
 }
 .user-avatar {
   padding-top: 10px;

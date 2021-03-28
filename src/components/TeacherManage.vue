@@ -1,5 +1,9 @@
 <template>
-  <div>教师管理</div>
+  <div>
+    <h1>
+      教师管理
+    </h1>
+  </div>
 </template>
 
 <script>

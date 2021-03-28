@@ -1,5 +1,7 @@
 <template>
-  <div>图表界面</div>
+  <div>
+    <h1>图表界面</h1>
+  </div>
 </template>
 
 <script>

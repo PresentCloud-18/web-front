@@ -46,6 +46,10 @@
         </template>
       </template>
     </el-menu>
+    <div class="collapse-btn" @click="collapseChange">
+      <i v-if="!isCollapse" class="el-icon-s-fold"></i>
+      <i v-else class="el-icon-s-unfold"></i>
+    </div>
   </div>
 </template>
 
@@ -61,22 +65,22 @@ export default {
           title: '系统首页'
         },
         {
-          icon: 'el-icon-tickets',
+          icon: 'el-icon-user-solid',
           index: 'roleManage',
           title: '角色管理'
         },
         {
-          icon: 'el-icon-tickets',
+          icon: 'el-icon-user',
           index: '2',
           title: '用户管理',
           subs: [
             {
-              icon: 'el-icon-tickets',
+              icon: 'el-icon-s-custom',
               index: 'teacherManage',
               title: '教师管理'
             },
             {
-              icon: 'el-icon-tickets',
+              icon: 'el-icon-s-custom',
               index: 'studentManage',
               title: '学生管理'
             }
@@ -88,7 +92,7 @@ export default {
           title: '课程管理'
         },
         {
-          icon: 'el-icon-tickets',
+          icon: 'el-icon-s-data',
           index: 'dataDictionary',
           title: '数据字典'
         },
@@ -130,7 +134,8 @@ export default {
     };
   },
   methods: {
-    openMenu() {
+    collapseChange() {
+      this.$store.commit('closeMenu', !this.isCollapse)
       this.isCollapse = !this.isCollapse
     },
     handleOpen(key, keyPath) {
@@ -142,10 +147,12 @@ export default {
   },
   computed: {
     onRoutes() {
-      return this.$route.path.replace('/', '');
+      return this.$route.path.replace('/', '/manageBoard');
     }
   },
   created() {
+    this.isCollapse = this.$store.state.isCollapse
+    console.log(this.$store.state.isCollapse)
   }
 };
 </script>
@@ -158,6 +165,18 @@ export default {
   left: 0;
   top: 70px;
   bottom: 0;
+}
+.collapse-btn {
+  background: #3A5799;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: fixed;
+  font-size: 30px;
+  left: 10px;
+  bottom: 20px;
+  cursor: pointer;
+  line-height: 40px;
 }
 .sidebar::-webkit-scrollbar {
   width: 0;

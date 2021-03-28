@@ -13,11 +13,14 @@
             </el-form-item>
             <el-form-item  prop="smsCode">
               <el-row :gutter="10">
-                <el-col :span="18">
+                <el-col :span="16">
                   <el-input type="string" v-model="loginForm.smsCode" autocomplete="off" placeholder="验证码"></el-input>
                 </el-col>
-                <el-col :span="6">
-                  <el-button type="info" @click="getMsgCode()">获取</el-button>
+                <el-col :span="8">
+                  <div class="login-code" @click="refreshCode">
+                    <!--验证码组件-->
+                    <SIdentify :identifyCode="identifyCode"></SIdentify>
+                  </div>
                 </el-col>
               </el-row>
             </el-form-item>
@@ -46,7 +49,7 @@
               <el-input type="string" v-model="registerForm.smsCode" autocomplete="off" placeholder="验证码"></el-input>
             </el-col>
             <el-col :span="6">
-              <el-button type="info" @click="getMsgCode()">获取</el-button>
+              <el-button type="info" @click="getMsgCode()" :disabled="disabledCodeBtn">{{codeText}}</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -76,7 +79,7 @@
               <el-input type="string" v-model="registerForm.smsCode" autocomplete="off" placeholder="验证码"></el-input>
             </el-col>
             <el-col :span="6">
-              <el-button type="info" @click="getMsgCode()">获取</el-button>
+              <el-button type="info" @click="getMsgCode()" :disabled="disabledCodeBtn">{{codeText}}</el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -92,8 +95,12 @@
 </template>
 <script>
   import {postRequest} from '../utils/api'
+  import SIdentify from "@/components/Identify";
   export default{
     name: 'Login',
+    components: {
+      SIdentify
+    },
     data(){
       return {
         // 这里定义数据
@@ -122,7 +129,11 @@
           password1: '',
           smsCOde: ''
         },
-        loading: false
+        loading: false,
+        identifyCodes: '1234567890',
+        identifyCode: '',
+        disabledCodeBtn: false,
+        codeText: '获取'
       }
     },
     methods: {
@@ -171,7 +182,36 @@
           code: this.loginForm.smsCode
         }).then(resp => {
           _this.$alert('验证码发送成功');
+          _this.countDown(60)
         })
+      },
+      randomNum (min, max) {
+        return Math.floor(Math.random() * (max - min) + min)
+      },
+      refreshCode () {
+        this.identifyCode = ''
+        this.makeCode(this.identifyCodes, 4)
+      },
+      makeCode (o, l) {
+        for (let i = 0; i < l; i++) {
+          this.identifyCode += this.identifyCodes[
+              this.randomNum(0, this.identifyCodes.length)
+              ]
+        }
+      },
+      countDown (time) {
+        if (time === 0) {
+          this.disabledCodeBtn = true
+          this.codeText = "获取"
+          return
+        } else {
+          this.disabledCodeBtn = false;
+          this.codeText = '重新发送(' + time + ')'
+          time--
+        }
+        setTimeout(()=> {
+          this.countDown(time)
+        }, 1000)
       }
     }
   }
