@@ -1,6 +1,6 @@
 <template>
   <div class="router-info">
-    <el-breadcrumb separator="/">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item
           v-for="(item,index) in breadList"
           :key="index"
@@ -49,10 +49,11 @@ export default {
 .router-info {
   display: flex;
   width: 100%;
-  padding-left: 8px;
+  margin-left: 0px;
+  padding-left: 0px;
   padding-top: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
-  background: #fff;
+  background: #FAFAFA;
 }
 </style>

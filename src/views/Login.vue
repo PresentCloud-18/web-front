@@ -218,7 +218,7 @@
 </script>
 <style>
 #paper {
-  background:url("../assets/19.jpg") no-repeat;
+  background:url("../assets/backimg3.jpg") no-repeat;
   background-position: center;
   height: 100%;
   width: 100%;
@@ -236,7 +236,7 @@ body {
     margin: 180px auto;
     width: 350px;
     padding: 35px 35px 15px 35px;
-    background-color: rgba(255,255,255,0.7);
+    background-color: rgba(255,255,255,0.9);
   }
 
   .login_title {

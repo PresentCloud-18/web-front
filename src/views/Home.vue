@@ -4,8 +4,8 @@
       <y-header></y-header>
       <y-sidebar></y-sidebar>
       <div :class="{'content-box':!this.$store.state.isCollapse, 'content-collapse' : this.$store.state.isCollapse}">
+        <BreadCrumb></BreadCrumb>
         <div class="content">
-          <BreadCrumb></BreadCrumb>
           <transition>
             <keep-alive>
               <router-view v-if="this.$route.meta.keepAlive"></router-view>
@@ -73,19 +73,30 @@ export default {
   }
   .content-box {
     position: absolute;
-    left: 250px;
-    right: 10px;
+    left: 260px;
     top: 70px;
+    right: 10px;
     bottom: 0;
-    padding-bottom: 30px;
+    padding-bottom: 40px;
     -webkit-transition: left .3s ease-in-out;
     transition: left .3s ease-in-out;
     background: #fafafa;
+  }
+  .content {
+    width: auto;
+    height: 100%;
+    padding: 10px;
+    /*overflow-y: scroll;*/
+    box-sizing: border-box;
   }
   .el-select .el-input {
     width: 130px;
   }
   .input-with-select .el-input-group__prepend {
     background-color: #fff;
+  }
+  ::-webkit-scrollbar {
+    /*隐藏滚轮*/
+    display: none;
   }
 </style>

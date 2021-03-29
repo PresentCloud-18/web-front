@@ -10,6 +10,9 @@ import DataDictionary from "@/components/DataDictionary";
 import LessonManage from "@/components/LessonManage";
 import UserManage from "@/components/UserManage";
 import HelloWorld from "@/components/HelloWorld";
+import BaseTable from "@/components/BaseTable";
+import Others from "@/components/Others";
+import BaseForm from "@/components/BaseForm";
 
 Vue.use(VueRouter)
 
@@ -112,6 +115,35 @@ const routes = [
           requireAuth: true,
           title: '测试页面'
         }
+      },
+      {
+        path: '/others',
+        name: '表单相关',
+        component: Others,
+        meta: {
+          keepAlive: true,
+          requireAuth: true
+        },
+        children: [
+          {
+            path: '/baseTable',
+            name: '基础列表',
+            component: BaseTable,
+            meta: {
+              keepAlive: true,
+              requireAuth: true
+            }
+          },
+          {
+            path: '/baseForm',
+            name: '基础表单',
+            component: BaseForm,
+            meta: {
+              keepAlive: true,
+              requireAuth: true
+            }
+          }
+        ]
       },
       {
         path: '/about',

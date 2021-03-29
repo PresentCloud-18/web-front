@@ -62,7 +62,7 @@ export default {
         {
           icon: 'el-icon-house',
           index: 'manageBoard',
-          title: '系统首页'
+          title: 'DashBoard'
         },
         {
           icon: 'el-icon-user-solid',
@@ -106,6 +106,14 @@ export default {
           index: '3',
           title: '表单相关',
           subs: [
+            {
+              index: 'baseTable',
+              title: '基础列表'
+            },
+            {
+              index: 'baseForm',
+              title: '基础表单'
+            },
             {
               index: '500',
               title: '500异常页面'
